@@ -6,26 +6,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Hub.Pages.Companies
 {
     [BindProperties]
-    public class createModel : PageModel
-    {
+    public class EditModel : PageModel { 
+
+
         private readonly ApplicationDbContext _db;
-        public createModel(ApplicationDbContext db)
+        public EditModel(ApplicationDbContext db)
         {
-                _db= db;
+                _db = db;
         }
+
+
+
+
         public Company Company { get; set; }
-        public void OnGet()
+        public void OnGet(int id)
         {
+            Company = _db.companies.FirstOrDefault(item => item.Id == id);
         }
-        public IActionResult OnPost() {
-            if (ModelState.IsValid)
+        public async Task<IActionResult> OnPost()
+        {
+            if(ModelState.IsValid)
             {
-                _db.companies.Add(Company);
+                _db.companies.Update(Company);
                 _db.SaveChanges();
                 return RedirectToPage("Index");
             }
             return Page();
-
         }
     }
 }

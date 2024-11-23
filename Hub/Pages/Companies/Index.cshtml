@@ -8,9 +8,42 @@
                 <h1>Company List</h1>
             </div>
             <div class="col-6">
-                <a asp-page="create">Create</a>
+            <a class="btn btn-primary" asp-page="create">Add Create</a>
 
             </div>
+            <br />
+            <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+            <table class="table table-bordered table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Companies)
+                {
+                    <tr>
+                        <td width="50%">@item.Name</td>
+                        <td width="20%">@item.Location</td>
+                        <td width="30%">
+                            <a class="btn btn-warning" asp-page="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-page="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                    
+                    
+                }
+              
+            </tbody>
+            </table>
     </div>
 
 </div>
