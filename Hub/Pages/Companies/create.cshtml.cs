@@ -1,5 +1,6 @@
 using Hub.Data;
 using Hub.Models;
+using Hub.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,8 +9,8 @@ namespace Hub.Pages.Companies
     [BindProperties]
     public class createModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
-        public createModel(ApplicationDbContext db)
+        private readonly dboperaqtion  _db;
+        public createModel(dboperaqtion db)
         {
                 _db= db;
         }
@@ -20,8 +21,7 @@ namespace Hub.Pages.Companies
         public IActionResult OnPost() {
             if (ModelState.IsValid)
             {
-                _db.companies.Add(Company);
-                _db.SaveChanges();
+                _db.createAsync(Company);
                 return RedirectToPage("Index");
             }
             return Page();

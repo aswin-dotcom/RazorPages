@@ -1,5 +1,6 @@
 using Hub.Data;
 using Hub.Models;
+using Hub.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,8 +10,8 @@ namespace Hub.Pages.Companies
     public class EditModel : PageModel { 
 
 
-        private readonly ApplicationDbContext _db;
-        public EditModel(ApplicationDbContext db)
+        private readonly dboperaqtion _db;
+        public EditModel(dboperaqtion db)
         {
                 _db = db;
         }
@@ -19,16 +20,15 @@ namespace Hub.Pages.Companies
 
 
         public Company Company { get; set; }
-        public void OnGet(int id)
+        public async Task OnGet(int id)
         {
-            Company = _db.companies.FirstOrDefault(item => item.Id == id);
+            Company =await _db.GetAsync(item => item.Id == id);
         }
         public async Task<IActionResult> OnPost()
         {
             if(ModelState.IsValid)
             {
-                _db.companies.Update(Company);
-                _db.SaveChanges();
+                await _db.UpdateAsync(Company); 
                 return RedirectToPage("Index");
             }
             return Page();
